@@ -1,7 +1,5 @@
-package be.cegeka.selfeval5.application;
+package be.cegeka.selfeval5.Domain.highway;
 
-import be.cegeka.selfeval5.Domain.highway.HighWay;
-import be.cegeka.selfeval5.Domain.highway.HighWayService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,15 +13,16 @@ import java.math.BigDecimal;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
-public class HighWayControllerTest {
+public class HighWayServiceTest {
+
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
     @InjectMocks
-    private HighWayController highWayController;
+    private HighWayService highWayService;
 
     @Mock
-    private HighWayService highWayService;
+    private HighWayRepository highWayRepository;
     private HighWay highway;
 
     @Before
@@ -33,7 +32,8 @@ public class HighWayControllerTest {
 
     @Test
     public void addHighway() throws Exception {
-        highWayController.addHighway(highway);
-        verify(highWayService).addHighway(highway);
+        highWayService.addHighway(highway);
+        verify(highWayRepository).addHighway(highway);
     }
+
 }
