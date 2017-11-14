@@ -1,7 +1,8 @@
-package be.cegeka.selfeval5.Domain.highway;
+package be.cegeka.selfeval5.Domain.highwayIncident;
 
 import be.cegeka.selfeval5.Application;
-import org.assertj.core.api.Assertions;
+import be.cegeka.selfeval5.Domain.highway.HighWay;
+import be.cegeka.selfeval5.Domain.highway.HighWayRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,37 +18,37 @@ import javax.transaction.Transactional;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = Application.class)
 @Transactional
-public class HighWayRepositoryTest {
+public class HighWayIncidentRepositoryTest {
 
     @Inject
-    private HighWayRepository highWayRepository;
-    private HighWay highway;
+    private HighWayIncidentRepository highWayIncidentRepository;
+    private HighWayIncident highWayIncident;
+
     @PersistenceContext
     private EntityManager entityManager;
+    private HighWay highway;
 
     @Before
     public void setUp() throws Exception {
         highway = new HighWay("name", new BigDecimal(100.0));
+        entityManager.persist(highway);
+        highWayIncident = new HighWayIncident(1,highway.getId(),"name", HighWayIncidentType.TRAFFIC_JAM, new BigDecimal(100.0));
     }
 
     @Test
-    public void addHighway() throws Exception {
-        highWayRepository.addHighway(highway);
-        assertThat(entityManager.find(HighWay.class,highway.getId())).isEqualTo(highway);
-    }
-    @Test
-    public void viewHighWays() throws Exception {
-        highWayRepository.addHighway(highway);
-        assertThat(highWayRepository.viewHighways()).contains(highway);
+    public void reportHighwayIncident() throws Exception {
+        highWayIncidentRepository.reportHighwayIncident(highWayIncident);
+        assertThat(entityManager.find(HighWayIncident.class,highWayIncident.getId())).isEqualTo(highWayIncident);
 
     }
+
     @After
     public void tearDown() throws Exception {
         entityManager.clear();

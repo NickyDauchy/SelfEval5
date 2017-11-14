@@ -36,4 +36,10 @@ public class HighWayServiceTest {
         verify(highWayRepository).addHighway(highway);
     }
 
+    @Test
+    public void viewHighWays() throws Exception {
+        highWayService.viewHighways();
+        verify(highWayRepository).viewHighways();
+    }
+
 }
